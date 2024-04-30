@@ -1,0 +1,34 @@
+{
+  "[python]": {
+    "[linting]": {
+      "enabled": true,
+      "flake8Enabled": true,
+      "pylintEnabled": false,
+      "lintOnSave": true
+    },
+    "[editor]": {
+      "formatOnSave": true,
+      "formatOnPaste": true,
+      "formatOnType": true,
+      "defaultFormatter": "ms-python.black-formatter"
+    },
+    "formatting.provider": "black",
+    "sortImports.path": "isort",
+    "analysis.extraPaths": [
+      "/usr/local/lib/python3.9/site-packages",
+      "/workspace/"
+    ],
+    "languageServer": "Pylance"
+  },
+
+  "jsonc.editor.defaultFormatter": "esbenp.prettier-vscode",
+  "markdown.editor.defaultFormatter": "esbenp.prettier-vscode",
+  "cSpell.customDictionaries": {
+    "custom-dictionary-workspace": {
+      "name": "custom-dictionary-workspace",
+      "path": "${workspaceFolder:python}/.cspell/custom-dictionary-workspace.txt",
+      "addWords": true,
+      "scope": "workspace"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "project",
+  "dockerComposeFile": "../docker-compose.yml",
+  "workspaceFolder": "/root/workspace",
+  "service": "project",
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      "settings": {
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash"
+          }
+        },
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "mhutchie.git-graph",
+        "eamodio.gitlens",
+        "usernamehw.errorlens",
+        "christian-kohler.path-intellisense",
+        "VisualStudioExptTeam.vscodeintellicode",
+        "streetsidesoftware.code-spell-checker",
+        "oderwat.indent-rainbow",
+        "Gruntfuggly.todo-tree",
+        "esbenp.prettier-vscode",
+        "PKief.material-icon-theme",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter-keymap",
+        "ms-python.black-formatter",
+        "ms-python.flake8",
+        "ms-python.isort",
+        "ms-toolsai.jupyter",
+        "njpwerner.autodocstring"
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+version: "1.0"
+services:
+  project:
+    build: .
+    volumes:
+      - .:/root/workspace
+    env_file:
+      - .env
+    tty: true # retain container up
