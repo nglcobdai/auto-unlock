@@ -15,7 +15,7 @@ This repository can be run on the following environment:
 
 ```sh
 $ git clone git@github.com:nglcobdai/auto-unlock-app.git
-$ cd auto-unlock
+$ cd auto-unlock-app
 ```
 
 ### 2. Create .env
