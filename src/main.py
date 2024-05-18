@@ -62,4 +62,3 @@ print("Finished recording.")
 stream.stop_stream()
 stream.close()
 audio.terminate()
-
