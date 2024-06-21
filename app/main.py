@@ -11,6 +11,7 @@ from src.switch_bot import SwitchBot
 
 print(settings.SWITCH_BOT_TOKEN)
 print(settings.SWITCH_BOT_SECRET)
+print(settings.RATE)
 
 # PyAudioオブジェクトを初期化
 audio = pyaudio.PyAudio()
