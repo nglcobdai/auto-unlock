@@ -9,6 +9,9 @@ from utils.log import logger
 from utils.config import settings
 from src.switch_bot import SwitchBot
 
+print(settings.SWITCH_BOT_TOKEN)
+print(settings.SWITCH_BOT_SECRET)
+
 # PyAudioオブジェクトを初期化
 audio = pyaudio.PyAudio()
 stream = audio.open(
