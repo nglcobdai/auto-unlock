@@ -4,10 +4,10 @@ import pyaudio
 import numpy as np
 
 # import requests
-from app.utils.log import logger
+from utils.log import logger
 
-from app.utils.config import settings
-from app.src.switch_bot import SwitchBot
+from utils.config import settings
+from src.switch_bot import SwitchBot
 
 # PyAudioオブジェクトを初期化
 audio = pyaudio.PyAudio()
