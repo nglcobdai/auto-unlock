@@ -37,9 +37,9 @@ while stream.is_active():
             and (consecutive_frames >= settings.CONSECUTIVE_FRAMES_THRESHOLD)
             and (interval_frames >= settings.INTERVAL_FRAMES_THRESHOLD)
         ):
-            # res = requests.post(settings.AUTO_UNLOCK_API_URL)
+            logger.info("Unlock event detected.")
             res = switch_bot.control_device(settings.UNLOCK_BOT_ID, "turnOn")
-            logger.info(res.json())
+            logger.info(res)
             consecutive_frames = 0
             interval_frames = 0
         elif x.max() > settings.THRESHOLD:
