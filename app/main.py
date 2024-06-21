@@ -9,9 +9,6 @@ from utils.log import logger
 from utils.config import settings
 from src.switch_bot import SwitchBot
 
-print(settings.SWITCH_BOT_TOKEN)
-print(settings.SWITCH_BOT_SECRET)
-print(settings.RATE)
 
 # PyAudioオブジェクトを初期化
 audio = pyaudio.PyAudio()
@@ -42,7 +39,7 @@ while stream.is_active():
         ):
             # res = requests.post(settings.AUTO_UNLOCK_API_URL)
             res = switch_bot.control_device(settings.UNLOCK_BOT_ID, "turnOn")
-            logger.info(res.text)
+            logger.info(res.json())
             consecutive_frames = 0
             interval_frames = 0
         elif x.max() > settings.THRESHOLD:
