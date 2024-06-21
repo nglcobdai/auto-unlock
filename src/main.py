@@ -4,9 +4,41 @@ import pyaudio
 import dotenv
 import os
 import numpy as np
+from datetime import datetime
 import requests
+import logging
+from logging import Formatter, StreamHandler, getLogger, DEBUG
+import pytz
 
 dotenv.load_dotenv()
+
+# 環境変数からログレベルを取得
+LOGGING_LEVEL = os.getenv("LOGGING_LEVEL", "DEBUG").upper()
+numeric_level = getattr(logging, LOGGING_LEVEL, DEBUG)
+logger = getLogger(__name__)
+
+JST = pytz.timezone("Asia/Tokyo")
+
+
+# タイムゾーンを日本時間に設定するためのカスタム関数
+def jst_time(*args):
+    return datetime.now(JST).timetuple()
+
+
+def set_logger():
+    # 全体のログ設定
+    root_logger = getLogger()
+    root_logger.setLevel(numeric_level)
+
+    # コンソール出力のためのハンドラを設定
+    console_handler = StreamHandler()
+    format = Formatter("%(asctime)s : %(levelname)s : %(filename)s - %(message)s")
+    format.converter = jst_time  # 日本時間を使用するように設定
+    console_handler.setFormatter(format)
+
+    # ルートロガーにコンソールハンドラを追加
+    root_logger.addHandler(console_handler)
+
 
 RATE = int(os.getenv("AUDIO_RATE"))
 CHUNK = int(os.getenv("AUDIO_CHUNK"))
@@ -29,7 +61,7 @@ stream = audio.open(
     format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK
 )
 
-print("Recording...")
+logger.info("Start recording...")
 
 consecutive_frames = 0
 interval_frames = INTERVAL_FRAMES_THRESHOLD
@@ -45,7 +77,7 @@ while stream.is_active():
             and (interval_frames >= INTERVAL_FRAMES_THRESHOLD)
         ):
             res = requests.post(AUTO_UNLOCK_API_URL)
-            print(res.text)
+            logger.info(res.text)
             consecutive_frames = 0
             interval_frames = 0
         elif x.max() > THRESHOLD:
@@ -56,7 +88,7 @@ while stream.is_active():
     except KeyboardInterrupt:
         break
 
-print("Finished recording.")
+logger.info("Stop recording...")
 
 # ストリームを停止して閉じる
 stream.stop_stream()
