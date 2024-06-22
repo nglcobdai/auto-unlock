@@ -1,5 +1,5 @@
-from utils.config import settings
-from src.auto_unlock import auto_unlock
+from app.utils import settings
+from app.src import auto_unlock
 
 
 def main():

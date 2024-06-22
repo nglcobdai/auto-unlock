@@ -7,10 +7,10 @@ import time
 import wave
 import numpy as np
 import requests
-from auto_unlock_app import AutoUnlockApp
-from utils import logger
+from app.src.auto_unlock import AutoUnlockApp
+from app.utils import logger
 
-from utils import settings
+from app.utils import settings
 
 
 class AutoUnlockAppWAuth(AutoUnlockApp):

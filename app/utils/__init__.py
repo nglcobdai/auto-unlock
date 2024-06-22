@@ -1,5 +1,5 @@
-from .config import Settings
-from .log import Logger
+from app.utils.config import Settings
+from app.utils.log import Logger
 
-logger = Logger()
+logger = Logger("Auto Unlock App")
 settings = Settings()

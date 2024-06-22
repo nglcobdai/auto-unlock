@@ -5,8 +5,8 @@ import json
 import time
 
 import requests
-from utils import settings
-from utils import logger
+from app.utils import settings
+from app.utils import logger
 
 
 class SwitchBot:
@@ -76,3 +76,12 @@ class SwitchBot:
             "commandType": "command",
         }
         return self._post_request(url, params, headers)
+
+
+def main():
+    switch_bot = SwitchBot()
+    print(switch_bot.get_device_list())
+
+
+if __name__ == "__main__":
+    main()

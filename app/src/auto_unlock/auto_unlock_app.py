@@ -2,9 +2,9 @@
 
 import numpy as np
 import pyaudio
-from utils import logger
-from utils import settings
-from src.switch_bot import SwitchBot
+from app.utils import logger
+from app.utils import settings
+from app.src.switch_bot import SwitchBot
 
 
 class AutoUnlockApp:
