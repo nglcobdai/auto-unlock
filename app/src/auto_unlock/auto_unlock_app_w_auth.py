@@ -79,22 +79,17 @@ class AutoUnlockAppWAuth(AutoUnlockApp):
     async def event(self, is_file=False):
         logger.info(f"Event detected. is_file: {is_file}")
         response = self.post_api(is_file)
-        logger.info(response)
 
         if response["phrase_authorized"]:
             self.is_phrase_authorized = True
             self.is_retry = is_file
+            logger.info("Auto Unlock API response: Success Call available.")
         else:
             self.is_phrase_authorized = False
             self.is_retry = False
             self.consecutive_frames = 0
             self.interval_frames = 0
-
-    def __del__(self):
-        logger.info("End AutoUnlockApp.")
-        self.stream.stop_stream()
-        self.stream.close()
-        self.audio.terminate()
+            logger.info("Auto Unlock API response: Success Auto Unlock.")
 
     async def recording(self):
         """
@@ -124,3 +119,7 @@ class AutoUnlockAppWAuth(AutoUnlockApp):
         wf.close()
 
         logger.info("End recording.")
+
+    def __del__(self):
+        super(AutoUnlockAppWAuth, self).__del__()
+        logger.info("Stop AutoUnlockAppWAuth.")
