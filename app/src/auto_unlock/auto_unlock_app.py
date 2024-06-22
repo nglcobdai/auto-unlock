@@ -9,7 +9,7 @@ from app.utils import logger, settings
 
 class AutoUnlockApp:
     def __init__(self):
-        logger.info("Start AutoUnlockApp.")
+        logger.logger.info("Start AutoUnlockApp.")
         self.audio = pyaudio.PyAudio()
         self.stream = self.audio.open(
             format=settings.FORMAT,
