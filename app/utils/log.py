@@ -16,7 +16,7 @@ class Logger:
         self.set_logger(numeric_level)
 
     # タイムゾーンを日本時間に設定するためのカスタム関数
-    def jst_time(self):
+    def jst_time(self, *args):
         return datetime.now(self.jst).timetuple()
 
     def set_logger(self, numeric_level):
