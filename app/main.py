@@ -1,9 +1,9 @@
 from app.utils import settings
-from app.src import auto_unlock
+from app.src.auto_unlock import auto_unlock_app
 
 
 def main():
-    app = auto_unlock(settings.IS_AUTHENTICATION)
+    app = auto_unlock_app(settings.IS_AUTHENTICATION)
     app()
 
 
