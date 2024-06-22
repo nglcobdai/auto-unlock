@@ -5,8 +5,8 @@ import json
 import time
 
 import requests
-from utils.config import settings
-from utils.log import logger
+from utils import settings
+from utils import logger
 
 
 class SwitchBot:
