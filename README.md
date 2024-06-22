@@ -1,5 +1,9 @@
 # auto-unlock-app
 
+This is a script for unlocking the auto-lock of an apartment using [Switch Bot's Bot](https://www.switchbot.jp/products/switchbot-bot). \
+It triggers when the room's intercom sounds, performs pass-phrase authentication, and presses the unlock button. \
+It is intended to be used in combination with [Auto Unlock Server](https://github.com/nglcobdai/auto-unlock-server).
+
 |                 |                                                                                                                                                                                                   |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **License**     | ![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)                                                                                                                          |
@@ -7,32 +11,28 @@
 | **Technology**  | ![SwitchBot API](https://img.shields.io/badge/-SwitchBot_API_v1.1-fc6203.svg?logo=SwitchBot&style=flat)                                                                                           |
 |                 |                                                                                                                                                                                                   |
 
-This is a script for unlocking the auto-lock of an apartment using [Switch Bot's Bot](https://www.switchbot.jp/products/switchbot-bot). \
-It triggers when the room's intercom sounds, performs pass-phrase authentication, and presses the unlock button. \
-It is intended to be used in combination with [Auto Unlock Server](https://github.com/nglcobdai/auto-unlock-server).
-
 ## Devices
 
 This repository can be run on the following environment:
 
-- Raspberry Pi Zero W
-- OS: Raspbian GNU/Linux 12 (bookworm)
-- Kernel: Linux 6.6.28+rpt-rpi-v6
-- Architecture: armv6l
+- `Raspberry Pi Zero W`
+- OS: `Raspbian GNU/Linux 12 (bookworm)`
+- Kernel: `Linux 6.6.28+rpt-rpi-v6`
+- Architecture: `armv6l`
 
 ## Getting Started
 
 ### 1. Clone & Set PYTHONPATH
 
 ```sh
-$ git clone git@github.com:nglcobdai/auto-unlock-app.git
+$ git clone -b v0.2.0 https://github.com/nglcobdai/auto-unlock-app.git
 $ cd auto-unlock-app
 $ export PYTHONPATH=$PWD
 ```
 
 ### 2. Create .env
 
-- Copy .env.example to .env
+Copy .env.example to .env
 
 ```sh
 $ cp .env{.example,}
