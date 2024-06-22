@@ -1,13 +1,13 @@
-import pyaudio
 import os
 
 import dotenv
+import pyaudio
 
 dotenv.load_dotenv()
 
 
 class Settings:
-    IS_AUTHENTICATION = bool(os.getenv("IS_AUTHENTICATION"))
+    IS_AUTHENTICATION = int(os.getenv("IS_AUTHENTICATION"))
 
     RATE = int(os.getenv("AUDIO_RATE"))
     CHUNK = int(os.getenv("AUDIO_CHUNK"))

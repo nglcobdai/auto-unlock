@@ -5,16 +5,17 @@ import json
 import os
 import time
 import wave
+
 import numpy as np
 import requests
-from app.src.auto_unlock import AutoUnlockApp
-from app.utils import logger
 
-from app.utils import settings
+from app.src.auto_unlock import AutoUnlockApp
+from app.utils import logger, settings
 
 
 class AutoUnlockAppWAuth(AutoUnlockApp):
     def __init__(self):
+        logger.info("Start AutoUnlockAppWAuth.")
         super(AutoUnlockAppWAuth, self).__init__()
 
         self.auto_unlock_api_url = settings.AUTO_UNLOCK_API_URL

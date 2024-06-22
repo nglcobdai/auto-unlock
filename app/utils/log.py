@@ -1,8 +1,9 @@
 import logging
-from logging import Formatter, StreamHandler, getLogger, DEBUG
-import pytz
 import os
 from datetime import datetime
+from logging import DEBUG, Formatter, StreamHandler, getLogger
+
+import pytz
 
 
 class Logger:

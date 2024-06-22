@@ -5,8 +5,8 @@ import json
 import time
 
 import requests
-from app.utils import settings
-from app.utils import logger
+
+from app.utils import logger, settings
 
 
 class SwitchBot:
@@ -51,7 +51,8 @@ class SwitchBot:
         data = res.json()
         message = data.get("message", None)
         if message == "success":
-            logger.info(f"Successfully POST request to {url}, params: {params}")
+            logger.info(f"Successfully POST request to {url}")
+            logger.debug(f"params: {params}, res: {message}")
         else:
             logger.error(
                 f"Failed POST request to {url}, params: {params}, res: {message}"
