@@ -56,6 +56,7 @@ $ pip install -r requirements.txt
 ### 4. Install Required Libraries
 
 ```sh
+$ sudo apt-get install jackd2
 $ sudo apt-get install libopenjp2-7
 $ sudo apt-get install libtiff5
 $ sudo apt-get install libatlas-base-dev
