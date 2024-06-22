@@ -99,7 +99,7 @@ class AutoUnlockAppWAuth(AutoUnlockApp):
         duration (int): The duration of the recording in seconds. Default is 2 seconds.
         output_filename (str): The name of the output WAV file. Default is 'test.wav'.
         """
-        logger.info("Start recording.")
+        logger.info("Start recording to file.")
         frames = []
 
         # 録音
@@ -118,7 +118,7 @@ class AutoUnlockAppWAuth(AutoUnlockApp):
         wf.writeframes(b"".join(frames))
         wf.close()
 
-        logger.info("End recording.")
+        logger.info("End recording to file.")
 
     def __del__(self):
         super(AutoUnlockAppWAuth, self).__del__()
