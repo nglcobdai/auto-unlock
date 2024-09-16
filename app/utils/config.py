@@ -7,6 +7,7 @@ dotenv.load_dotenv()
 
 
 class Settings:
+    PROJECT_NAME = os.getenv("PROJECT_NAME")
     IS_AUTHENTICATION = int(os.getenv("IS_AUTHENTICATION"))
 
     RATE = int(os.getenv("AUDIO_RATE"))
@@ -25,3 +26,6 @@ class Settings:
     SWITCH_BOT_TOKEN = os.getenv("SWITCH_BOT_TOKEN")
     SWITCH_BOT_SECRET = os.getenv("SWITCH_BOT_SECRET")
     UNLOCK_BOT_ID = os.getenv("UNLOCK_BOT_ID")
+
+    SLACK_API_TOKEN = os.getenv("SLACK_API_TOKEN")
+    SLACK_CHANNEL = os.getenv("SLACK_CHANNEL")

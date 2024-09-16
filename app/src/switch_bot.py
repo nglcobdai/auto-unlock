@@ -6,7 +6,7 @@ import time
 
 import requests
 
-from app.utils import logger, settings
+from app.utils import logger, settings, slack
 
 
 class SwitchBot:
@@ -44,6 +44,10 @@ class SwitchBot:
             logger.info(f"Successfully GET request to {url}")
             return res.json()
         logger.error(f"Failed GET request to {url}")
+        slack.post_text(
+            channel=settings.SLACK_CHANNEL,
+            text=logger.get_log_message(),
+        )
         return {}
 
     def _post_request(self, url, params, headers):
@@ -57,6 +61,11 @@ class SwitchBot:
             logger.error(
                 f"Failed POST request to {url}, params: {params}, res: {message}"
             )
+            slack.post_text(
+                channel=settings.SLACK_CHANNEL,
+                text=logger.get_log_message(),
+            )
+
         return data
 
     def get_device_list(self):
