@@ -47,13 +47,7 @@ You need to edit the following items
 | `SWITCH_BOT_SECRET`   | Switch Bot Secret        | [Switch Bot](https://support.switch-bot.com/hc/ja/articles/12822710195351-トークンの取得方法) |
 | `UNLOCK_BOT_ID`       | Bot ID for Unlock button | Refer to the output of `python app/src/switch_bot.py`                                         |
 
-### 3. Install Dependencies
-
-```sh
-$ pip install -r requirements.txt
-```
-
-### 4. Install Required Libraries
+### 3. Install Required Libraries
 
 ```sh
 $ sudo apt-get install jackd2
@@ -65,7 +59,13 @@ $ sudo apt-get install libqtgui4
 $ sudo apt-get install libqt4-test
 ```
 
-### 5. Run
+### 4. Install Dependencies
+
+```sh
+$ pip install -r requirements.txt
+```
+
+### 6. Run
 
 ```sh
 $ python app/main.py
