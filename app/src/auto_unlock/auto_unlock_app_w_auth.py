@@ -10,7 +10,7 @@ import numpy as np
 import requests
 
 from app.src.auto_unlock import AutoUnlockApp
-from app.utils import logger, settings
+from app.utils import logger, settings, slack
 
 
 class AutoUnlockAppWAuth(AutoUnlockApp):
@@ -47,6 +47,10 @@ class AutoUnlockAppWAuth(AutoUnlockApp):
                     self.consecutive_frames = 0
                 self.interval_frames += 1
             except KeyboardInterrupt:
+                logger.warning("KeyboardInterrupt.")
+                slack.post_text(
+                    channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
+                )
                 break
         self.__del__()
 
