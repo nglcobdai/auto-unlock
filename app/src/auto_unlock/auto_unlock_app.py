@@ -10,6 +10,7 @@ from app.utils import logger, settings, slack
 class AutoUnlockApp:
     def __init__(self):
         logger.info("Start AutoUnlockApp.")
+        slack.post_text(channel=settings.SLACK_CHANNEL, text=logger.get_log_message())
         self.audio = pyaudio.PyAudio()
         self.stream = self.audio.open(
             format=settings.FORMAT,
@@ -64,3 +65,4 @@ class AutoUnlockApp:
         self.audio.terminate()
 
         logger.info("Stop AutoUnlockApp.")
+        slack.post_text(channel=settings.SLACK_CHANNEL, text=logger.get_log_message())
