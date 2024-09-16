@@ -25,7 +25,7 @@ This repository can be run on the following environment:
 ### 1. Clone & Set PYTHONPATH
 
 ```sh
-$ git clone -b v0.2.0 https://github.com/nglcobdai/auto-unlock-app.git
+$ git clone -b v0.3.0 https://github.com/nglcobdai/auto-unlock-app.git
 $ cd auto-unlock-app
 $ export PYTHONPATH=$PWD
 ```
