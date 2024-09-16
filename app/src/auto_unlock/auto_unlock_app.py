@@ -4,12 +4,13 @@ import numpy as np
 import pyaudio
 
 from app.src.switch_bot import SwitchBot
-from app.utils import logger, settings
+from app.utils import logger, settings, slack
 
 
 class AutoUnlockApp:
     def __init__(self):
         logger.info("Start AutoUnlockApp.")
+        slack.post_text(channel=settings.SLACK_CHANNEL, text=logger.get_log_message())
         self.audio = pyaudio.PyAudio()
         self.stream = self.audio.open(
             format=settings.FORMAT,
@@ -49,6 +50,10 @@ class AutoUnlockApp:
                     self.consecutive_frames = 0
                 self.interval_frames += 1
             except KeyboardInterrupt:
+                logger.warning("KeyboardInterrupt.")
+                slack.post_text(
+                    channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
+                )
                 break
 
         logger.info("Stop recording...")
@@ -60,3 +65,4 @@ class AutoUnlockApp:
         self.audio.terminate()
 
         logger.info("Stop AutoUnlockApp.")
+        slack.post_text(channel=settings.SLACK_CHANNEL, text=logger.get_log_message())
