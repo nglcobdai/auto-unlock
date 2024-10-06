@@ -53,7 +53,6 @@ class AutoUnlockAppWAuth(AutoUnlockApp):
                 )
                 break
             except Exception as e:
-                logger.warning(e)
                 slack.post_text(
                     channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
                 )

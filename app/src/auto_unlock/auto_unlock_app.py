@@ -54,12 +54,11 @@ class AutoUnlockApp:
                     channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
                 )
                 break
-            except Exception as e:
-                logger.warning(e)
+            except Exception:
                 slack.post_text(
                     channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
                 )
-                raise e
+                raise Exception
 
         logger.info("Stop recording...")
 

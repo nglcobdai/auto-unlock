@@ -7,7 +7,7 @@ import time
 import requests
 from requests.exceptions import RequestException
 
-from app.utils import logger, settings, slack
+from app.utils import logger, settings
 
 
 class SwitchBot:
@@ -46,17 +46,9 @@ class SwitchBot:
             if data["message"] == "success":
                 return data
             else:
-                slack.post_text(
-                    channel=settings.SLACK_CHANNEL,
-                    text=logger.get_log_message(),
-                )
                 return {}
         except RequestException as e:
-            logger.error(e)
-            slack.post_text(
-                channel=settings.SLACK_CHANNEL,
-                text=logger.get_log_message(),
-            )
+            logger.warning(e)
             raise e
 
     def _post_request(self, url, params, headers):
@@ -66,19 +58,9 @@ class SwitchBot:
             res = requests.post(url, data=json.dumps(params), headers=headers)
             data = res.json()
             logger.info(f"Response: {data}")
-            if data.get("message", None) == "success":
-                return data
-            else:
-                return slack.post_text(
-                    channel=settings.SLACK_CHANNEL,
-                    text=logger.get_log_message(),
-                )
+            return data
         except RequestException as e:
-            logger.error(e)
-            slack.post_text(
-                channel=settings.SLACK_CHANNEL,
-                text=logger.get_log_message(),
-            )
+            logger.warning(e)
             raise e
 
     def get_device_list(self):
