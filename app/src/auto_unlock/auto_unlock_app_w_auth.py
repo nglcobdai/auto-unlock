@@ -57,7 +57,6 @@ class AutoUnlockAppWAuth(AutoUnlockApp):
                     channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
                 )
                 raise e
-        self.__del__()
 
     def fetch_audio_data(self):
         data = self.stream.read(self.chunk)

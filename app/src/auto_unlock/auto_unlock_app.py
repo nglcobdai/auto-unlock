@@ -48,8 +48,8 @@ class AutoUnlockApp:
                 else:
                     self.consecutive_frames = 0
                 self.interval_frames += 1
-            except KeyboardInterrupt as e:
-                logger.warning(str(e))
+            except KeyboardInterrupt:
+                logger.warning("KeyboardInterrupt.")
                 slack.post_text(
                     channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
                 )

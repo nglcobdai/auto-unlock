@@ -27,7 +27,6 @@ class AutoUnlockAppManager:
         self.app.stream.stop_stream()
         self.app.stream.close()
         self.app.audio.terminate()
-        del self.app
 
         logger.warning("End AutoUnlockApp.")
         slack.post_text(channel=settings.SLACK_CHANNEL, text=logger.get_log_message())
