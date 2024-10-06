@@ -1,3 +1,6 @@
+import time
+
+from requests.exceptions import RequestException
 from slack_sdk import WebClient
 
 
@@ -43,10 +46,28 @@ class Slack:
         Returns:
             dict: API response
         """
+        try:
+            return self._post_text(channel, text, **kwargs)
+        except RequestException as e:
+            time.sleep(10)  # Wait 10 seconds
+            return self.post_text(channel, e, **kwargs)
+        except RecursionError as e:
+            return e
+
+    def _post_text(self, channel, text, **kwargs):
+        """Post a message to a channel
+
+        Args:
+            channel (str): Slack channel name
+            text (str): Message text
+
+        Returns:
+            dict: API response
+        """
         response = self.client.chat_postMessage(
             channel=self.get_channel_id(channel),
             text=self._validate_text(text),
-            **kwargs
+            **kwargs,
         )
         return response
 
