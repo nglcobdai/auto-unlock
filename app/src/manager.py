@@ -14,18 +14,20 @@ class AutoUnlockAppManager:
             self.app = AutoUnlockApp()
 
     def __call__(self):
+        self._auto_unlock()
+        self.__del__()
+
+    def _auto_unlock(self):
         try:
             self.app()
         except Exception:
+            time.sleep(10)
             logger.warning("Restart AutoUnlockApp.")
             slack.post_text(
-                channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
+                channel=settings.SLACK_CHANNEL,
+                text=logger.get_log_message(),
             )
-
-            time.sleep(10)
-            self.__call__()
-        finally:
-            self.__del__()
+            self._auto_unlock()
 
     def __del__(self):
         self.app.__del__()
