@@ -1,3 +1,5 @@
+import time
+
 from app.src.auto_unlock import AutoUnlockApp, AutoUnlockAppWAuth
 from app.utils import logger, settings, slack
 
@@ -12,23 +14,21 @@ class AutoUnlockAppManager:
             self.app = AutoUnlockApp()
 
     def __call__(self):
-        while True:
-            try:
-                self.app()
-                break  # 正常終了したらループを抜ける
-            except Exception:
-                logger.warning("Restart AutoUnlockApp.")
-                slack.post_text(
-                    channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
-                )
-            finally:
-                self.cleanup()
+        try:
+            self.app()
+        except Exception:
+            logger.warning("Restart AutoUnlockApp.")
+            slack.post_text(
+                channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
+            )
 
-    def cleanup(self):
-        if hasattr(self, "app"):
-            self.app.__del__()
-        logger.warning("End AutoUnlockApp.")
-        slack.post_text(channel=settings.SLACK_CHANNEL, text=logger.get_log_message())
+            time.sleep(10)
+            self.__call__()
+        finally:
+            self.__del__()
 
     def __del__(self):
-        self.cleanup()
+        self.app.__del__()
+
+        logger.warning("End AutoUnlockApp.")
+        slack.post_text(channel=settings.SLACK_CHANNEL, text=logger.get_log_message())
