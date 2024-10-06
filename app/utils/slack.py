@@ -38,7 +38,6 @@ class Slack:
                 channel_id = ch["id"]
                 break
         if not channel_id:
-            # `response`を空の辞書にするか、モックしたデータを使用する
             mock_response = {"ok": False, "error": "channel_not_found"}
             raise SlackApiError("Channel not found", response=mock_response)
         return channel_id
@@ -53,12 +52,14 @@ class Slack:
         Returns:
             dict: API response
         """
+        print("Post text")
         try:
             return self._post_text(channel, text, **kwargs)
         except (RequestException, SlackApiError) as e:
             if self.retry >= self.mx_retry:
                 raise e
             time.sleep(10)  # Wait 10 seconds
+            print(f"Retry: {self.retry}")
             self.retry += 1
             return self.post_text(channel, e, **kwargs)
 
