@@ -29,3 +29,7 @@ class Settings:
 
     SLACK_API_TOKEN = os.getenv("SLACK_API_TOKEN")
     SLACK_CHANNEL = os.getenv("SLACK_CHANNEL")
+
+    LOGGING_LEVEL = os.getenv("LOGGING_LEVEL")
+    LOGGING_BACKUP_COUNT = int(os.getenv("LOGGING_BACKUP_COUNT"))
+    LOGFILE_SIZE_GB = int(os.getenv("LOGFILE_SIZE_GB"))
