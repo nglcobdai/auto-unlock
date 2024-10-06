@@ -15,8 +15,7 @@ from app.utils import logger, settings, slack
 
 class AutoUnlockAppWAuth(AutoUnlockApp):
     def __init__(self):
-        logger.info("Start AutoUnlockAppWAuth.")
-        slack.post_text(channel=settings.SLACK_CHANNEL, text=logger.get_log_message())
+        logger.info("Initialize AutoUnlockAppWAuth.")
         super(AutoUnlockAppWAuth, self).__init__()
 
         self.auto_unlock_api_url = settings.AUTO_UNLOCK_API_URL
@@ -53,7 +52,11 @@ class AutoUnlockAppWAuth(AutoUnlockApp):
                     channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
                 )
                 break
-        self.__del__()
+            except Exception as e:
+                slack.post_text(
+                    channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
+                )
+                raise e
 
     def fetch_audio_data(self):
         data = self.stream.read(self.chunk)
@@ -125,7 +128,6 @@ class AutoUnlockAppWAuth(AutoUnlockApp):
 
         logger.info("End recording to file.")
 
-    def __del__(self):
-        super(AutoUnlockAppWAuth, self).__del__()
+    def _cleanup(self):
+        super(AutoUnlockAppWAuth, self)._cleanup()
         logger.info("Stop AutoUnlockAppWAuth.")
-        slack.post_text(channel=settings.SLACK_CHANNEL, text=logger.get_log_message())

@@ -5,8 +5,9 @@ import json
 import time
 
 import requests
+from requests.exceptions import RequestException
 
-from app.utils import logger, settings, slack
+from app.utils import logger, settings
 
 
 class SwitchBot:
@@ -38,44 +39,34 @@ class SwitchBot:
         }
 
     def _get_request(self, url, headers):
-        res = requests.get(url, headers=headers)
-        data = res.json()
-        if data["message"] == "success":
-            logger.info(f"Successfully GET request to {url}")
-            return res.json()
-        logger.error(f"Failed GET request to {url}")
-        slack.post_text(
-            channel=settings.SLACK_CHANNEL,
-            text=logger.get_log_message(),
-        )
-        return {}
+        try:
+            res = requests.get(url, headers=headers)
+            data = res.json()
+            logger.info(f"Response: {data}")
+            if data["message"] == "success":
+                return data
+            else:
+                return {}
+        except RequestException as e:
+            raise e
 
     def _post_request(self, url, params, headers):
-        res = requests.post(url, data=json.dumps(params), headers=headers)
-        data = res.json()
-        message = data.get("message", None)
-        if message == "success":
-            logger.info(f"Successfully POST request to {url}")
-            logger.debug(f"params: {params}, res: {message}")
-        else:
-            logger.error(
-                f"Failed POST request to {url}, params: {params}, res: {message}"
-            )
-            slack.post_text(
-                channel=settings.SLACK_CHANNEL,
-                text=logger.get_log_message(),
-            )
+        logger.debug(f"POST request to {url}, params: {params}")
 
-        return data
+        try:
+            res = requests.post(url, data=json.dumps(params), headers=headers)
+            data = res.json()
+            logger.info(f"Response: {data}")
+            return data
+        except RequestException as e:
+            raise e
 
     def get_device_list(self):
         headers = self.__init_headers()
         url = f"{self.SWITCH_BOT_API_URL}/{self.VERSION}/devices"
-        try:
-            res = self._get_request(url, headers)["body"]
-            return res
-        except Exception:
-            return {}
+
+        res = self._get_request(url, headers)["body"]
+        return res
 
     def control_device(self, deviceId, command):
         headers = self.__init_headers()

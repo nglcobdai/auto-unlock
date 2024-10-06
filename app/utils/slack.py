@@ -1,10 +1,16 @@
+import time
+
+from requests.exceptions import RequestException
 from slack_sdk import WebClient
+from slack_sdk.errors import SlackApiError
 
 
 class Slack:
     def __init__(self, token: str):
         self.client = WebClient(token)
         self.channels = self.get_channels()
+        self.mx_retry = 3
+        self.retry = 0
 
     def get_channels(self, exclude_archived=True, **kwargs):
         """Get channel list
@@ -31,6 +37,9 @@ class Slack:
             if ch["name"] == channel:
                 channel_id = ch["id"]
                 break
+        if not channel_id:
+            mock_response = {"ok": False, "error": "channel_not_found"}
+            raise SlackApiError("Channel not found", response=mock_response)
         return channel_id
 
     def post_text(self, channel, text, **kwargs):
@@ -43,12 +52,35 @@ class Slack:
         Returns:
             dict: API response
         """
-        response = self.client.chat_postMessage(
-            channel=self.get_channel_id(channel),
-            text=self._validate_text(text),
-            **kwargs
-        )
-        return response
+        try:
+            return self._post_text(channel, text, **kwargs)
+        except (RequestException, SlackApiError) as e:
+            if self.retry >= self.mx_retry:
+                self.retry = 0
+                raise e
+            time.sleep(10)  # Wait 10 seconds
+            self.retry += 1
+            return self.post_text(channel, e, **kwargs)
+
+    def _post_text(self, channel, text, **kwargs):
+        """Post a message to a channel
+
+        Args:
+            channel (str): Slack channel name
+            text (str): Message text
+
+        Returns:
+            dict: API response
+        """
+        try:
+            response = self.client.chat_postMessage(
+                channel=self.get_channel_id(channel),
+                text=self._validate_text(text),
+                **kwargs,
+            )
+            return response
+        except SlackApiError as e:
+            raise e
 
     def post_file(self, channel, files, **kwargs):
         """Post a file to a channel
