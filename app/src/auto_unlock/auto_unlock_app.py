@@ -63,7 +63,7 @@ class AutoUnlockApp:
 
         logger.info("Stop recording...")
 
-    def __del__(self):
+    def _cleanup(self):
         self.stream.stop_stream()
         self.stream.close()
         self.audio.terminate()

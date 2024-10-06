@@ -128,6 +128,6 @@ class AutoUnlockAppWAuth(AutoUnlockApp):
 
         logger.info("End recording to file.")
 
-    def __del__(self):
-        super(AutoUnlockAppWAuth, self).__del__()
+    def _cleanup(self):
+        super(AutoUnlockAppWAuth, self)._cleanup()
         logger.info("Stop AutoUnlockAppWAuth.")

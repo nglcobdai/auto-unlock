@@ -14,10 +14,6 @@ class AutoUnlockAppManager:
             self.app = AutoUnlockApp()
 
     def __call__(self):
-        self._auto_unlock()
-        self.__del__()
-
-    def _auto_unlock(self):
         try:
             self.app()
         except Exception:
@@ -28,9 +24,10 @@ class AutoUnlockAppManager:
                 text=logger.get_log_message(),
             )
             self._auto_unlock()
+        self._cleanup()
 
-    def __del__(self):
-        self.app.__del__()
+    def _cleanup(self):
+        self.app._cleanup()
 
         logger.warning("End AutoUnlockApp.")
         slack.post_text(channel=settings.SLACK_CHANNEL, text=logger.get_log_message())
