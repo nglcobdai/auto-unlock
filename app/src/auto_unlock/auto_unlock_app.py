@@ -58,9 +58,13 @@ class AutoUnlockApp:
                 slack.post_text(
                     channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
                 )
+                logger.info("Stop recording...")
                 raise Exception
 
         logger.info("Stop recording...")
 
     def __del__(self):
+        self.app.stream.stop_stream()
+        self.app.stream.close()
+        self.app.audio.terminate()
         logger.info("Stop AutoUnlockApp.")
