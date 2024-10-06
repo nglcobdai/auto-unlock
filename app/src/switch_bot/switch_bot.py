@@ -42,18 +42,22 @@ class SwitchBot:
         try:
             res = requests.get(url, headers=headers)
             data = res.json()
+            logger.info(f"Response: {data}")
             if data["message"] == "success":
-                logger.info(f"Successfully GET request to {url}")
-                return res.json()
+                return data
             else:
-                logger.error(f"Failed GET request to {url}")
+                slack.post_text(
+                    channel=settings.SLACK_CHANNEL,
+                    text=logger.get_log_message(),
+                )
+                return {}
         except RequestException as e:
             logger.error(e)
-        slack.post_text(
-            channel=settings.SLACK_CHANNEL,
-            text=logger.get_log_message(),
-        )
-        return {}
+            slack.post_text(
+                channel=settings.SLACK_CHANNEL,
+                text=logger.get_log_message(),
+            )
+            raise e
 
     def _post_request(self, url, params, headers):
         logger.debug(f"POST request to {url}, params: {params}")
@@ -61,36 +65,28 @@ class SwitchBot:
         try:
             res = requests.post(url, data=json.dumps(params), headers=headers)
             data = res.json()
-            message = data.get("message", None)
-            if message == "success":
-                logger.info(f"Successfully POST request to {url}")
-                logger.debug(f"Response: {message}")
+            logger.info(f"Response: {data}")
+            if data.get("message", None) == "success":
                 return data
             else:
-                logger.error(
-                    f"Failed POST request to {url}, params: {params}, res: {message}"
+                return slack.post_text(
+                    channel=settings.SLACK_CHANNEL,
+                    text=logger.get_log_message(),
                 )
-        except RequestException as e:
-            logger.error(e)
-        slack.post_text(
-            channel=settings.SLACK_CHANNEL,
-            text=logger.get_log_message(),
-        )
-        return {}
-
-    def get_device_list(self):
-        headers = self.__init_headers()
-        url = f"{self.SWITCH_BOT_API_URL}/{self.VERSION}/devices"
-        try:
-            res = self._get_request(url, headers)["body"]
-            return res
         except RequestException as e:
             logger.error(e)
             slack.post_text(
                 channel=settings.SLACK_CHANNEL,
                 text=logger.get_log_message(),
             )
-            return {}
+            raise e
+
+    def get_device_list(self):
+        headers = self.__init_headers()
+        url = f"{self.SWITCH_BOT_API_URL}/{self.VERSION}/devices"
+
+        res = self._get_request(url, headers)["body"]
+        return res
 
     def control_device(self, deviceId, command):
         headers = self.__init_headers()
