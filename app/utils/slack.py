@@ -37,6 +37,10 @@ class Slack:
             if ch["name"] == channel:
                 channel_id = ch["id"]
                 break
+        if not channel_id:
+            # `response`を空の辞書にするか、モックしたデータを使用する
+            mock_response = {"ok": False, "error": "channel_not_found"}
+            raise SlackApiError("Channel not found", response=mock_response)
         return channel_id
 
     def post_text(self, channel, text, **kwargs):
@@ -53,7 +57,7 @@ class Slack:
             return self._post_text(channel, text, **kwargs)
         except (RequestException, SlackApiError) as e:
             if self.retry >= self.mx_retry:
-                raise RecursionError
+                raise e
             time.sleep(10)  # Wait 10 seconds
             self.retry += 1
             return self.post_text(channel, e, **kwargs)
@@ -75,8 +79,8 @@ class Slack:
                 **kwargs,
             )
             return response
-        except SlackApiError:
-            raise SlackApiError
+        except SlackApiError as e:
+            raise e
 
     def post_file(self, channel, files, **kwargs):
         """Post a file to a channel
