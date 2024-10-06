@@ -12,19 +12,23 @@ class AutoUnlockAppManager:
             self.app = AutoUnlockApp()
 
     def __call__(self):
-        try:
-            self.app()
-        except Exception:
-            logger.warning("Restart AutoUnlockApp.")
-            slack.post_text(
-                channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
-            )
-            self.__call__()
-        finally:
-            self.__del__()
+        while True:
+            try:
+                self.app()
+                break  # 正常終了したらループを抜ける
+            except Exception:
+                logger.warning("Restart AutoUnlockApp.")
+                slack.post_text(
+                    channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
+                )
+            finally:
+                self.cleanup()
 
-    def __del__(self):
-        self.app.__del__()
-
+    def cleanup(self):
+        if hasattr(self, "app"):
+            self.app.__del__()
         logger.warning("End AutoUnlockApp.")
         slack.post_text(channel=settings.SLACK_CHANNEL, text=logger.get_log_message())
+
+    def __del__(self):
+        self.cleanup()
