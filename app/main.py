@@ -1,5 +1,5 @@
 from app.src import auto_unlock_app
-from app.utils import settings
+from app.utils import settings, logger
 
 
 def main():
