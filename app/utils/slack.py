@@ -52,7 +52,6 @@ class Slack:
         Returns:
             dict: API response
         """
-        print("Post text")
         try:
             return self._post_text(channel, text, **kwargs)
         except (RequestException, SlackApiError) as e:
@@ -60,7 +59,6 @@ class Slack:
                 self.retry = 0
                 raise e
             time.sleep(10)  # Wait 10 seconds
-            print(f"Retry: {self.retry}")
             self.retry += 1
             return self.post_text(channel, e, **kwargs)
 
