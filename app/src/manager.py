@@ -22,11 +22,14 @@ class AutoUnlockAppManager:
             self.app()
         except Exception:
             time.sleep(10)
-            logger.warning("Restart AutoUnlockApp.")
-            slack.post_text(
-                channel=settings.SLACK_CHANNEL,
-                text=logger.get_log_message(),
-            )
+            try:
+                logger.warning("Restart AutoUnlockApp.")
+                slack.post_text(
+                    channel=settings.SLACK_CHANNEL,
+                    text=logger.get_log_message(),
+                )
+            except Exception:
+                pass
             self._auto_unlock()
 
     def _cleanup(self):
