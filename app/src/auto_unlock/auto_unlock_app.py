@@ -54,7 +54,8 @@ class AutoUnlockApp:
                     channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
                 )
                 break
-            except Exception:
+            except Exception as e:
+                logger.warning(str(e))
                 slack.post_text(
                     channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
                 )

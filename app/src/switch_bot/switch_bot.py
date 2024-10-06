@@ -48,7 +48,6 @@ class SwitchBot:
             else:
                 return {}
         except RequestException as e:
-            logger.warning(str(e))
             raise e
 
     def _post_request(self, url, params, headers):
@@ -60,7 +59,6 @@ class SwitchBot:
             logger.info(f"Response: {data}")
             return data
         except RequestException as e:
-            logger.warning(str(e))
             raise e
 
     def get_device_list(self):
