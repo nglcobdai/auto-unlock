@@ -6,16 +6,8 @@ from app.utils import logger, settings, slack
 
 class AutoUnlockAppManager:
     def __init__(self, is_authenticating=True):
-        try:
-            logger.info("Start AutoUnlockApp.")
-            slack.post_text(
-                channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
-            )
-        except Exception as e:
-            logger.error(str(e))
-            slack.post_text(
-                channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
-            )
+        logger.info("Start AutoUnlockApp.")
+        # slack.post_text(channel=settings.SLACK_CHANNEL, text=logger.get_log_message())
         if is_authenticating:
             self.app = AutoUnlockAppWAuth()
         else:

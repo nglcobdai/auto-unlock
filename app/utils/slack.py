@@ -57,6 +57,7 @@ class Slack:
             return self._post_text(channel, text, **kwargs)
         except (RequestException, SlackApiError) as e:
             if self.retry >= self.mx_retry:
+                self.retry = 0
                 raise e
             time.sleep(10)  # Wait 10 seconds
             print(f"Retry: {self.retry}")
