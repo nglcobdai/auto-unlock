@@ -159,10 +159,15 @@ class HandlerInfo:
             Dict: Handler parameters
         """
         return (
-            self.model_dump(exclude={"is_use", "log_level", "format"})
+            self._model_dump(exclude={"is_use", "log_level", "format"})
             if self.is_use
             else {}
         )
+
+    def _model_dump(self, exclude):
+        return {
+            key: value for key, value in self.__dict__.items() if key not in exclude
+        }
 
 
 class ConsoleHandlerInfo(HandlerInfo):
