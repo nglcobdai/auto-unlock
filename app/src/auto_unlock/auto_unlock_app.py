@@ -9,7 +9,14 @@ from app.utils import logger, settings, slack
 
 class AutoUnlockApp:
     def __init__(self):
-        logger.info("Initialize AutoUnlockApp.")
+        try:
+            logger.info("Initialize AutoUnlockApp.")
+        except Exception as e:
+            logger.error(e)
+            slack.post_text(
+                channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
+            )
+            raise Exception
         self.audio = pyaudio.PyAudio()
         self.stream = self.audio.open(
             format=settings.FORMAT,
