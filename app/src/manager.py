@@ -14,6 +14,10 @@ class AutoUnlockAppManager:
             self.app = AutoUnlockApp()
 
     def __call__(self):
+        self._auto_unlock()
+        self._cleanup()
+
+    def _auto_unlock(self):
         try:
             self.app()
         except Exception:
@@ -24,7 +28,6 @@ class AutoUnlockAppManager:
                 text=logger.get_log_message(),
             )
             self._auto_unlock()
-        self._cleanup()
 
     def _cleanup(self):
         self.app._cleanup()
