@@ -28,8 +28,8 @@ class AutoUnlockAppManager:
                     channel=settings.SLACK_CHANNEL,
                     text=logger.get_log_message(),
                 )
-            except Exception:
-                pass
+            except Exception as e:
+                logger.error(e)
             self._auto_unlock()
 
     def _cleanup(self):
