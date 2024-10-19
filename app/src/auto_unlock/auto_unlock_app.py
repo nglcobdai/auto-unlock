@@ -30,8 +30,8 @@ class AutoUnlockApp:
         logger.info("Start recording...")
         switch_bot = SwitchBot()
 
-        while self.stream.is_active():
-            try:
+        try:
+            while self.stream.is_active():
                 data = self.stream.read(self.chunk)
                 x = np.frombuffer(data, dtype="int16") / 32768.0
                 if (
@@ -48,22 +48,19 @@ class AutoUnlockApp:
                 else:
                     self.consecutive_frames = 0
                 self.interval_frames += 1
-            except KeyboardInterrupt:
-                logger.warning("KeyboardInterrupt.")
-                slack.post_text(
-                    channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
-                )
-                break
-            except Exception as e:
-                logger.warning(str(e))
-                slack.post_text(
-                    channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
-                )
-                raise Exception
-            finally:
-                logger.info("Stop recording...")
-
-        logger.info("Stop recording...")
+        except KeyboardInterrupt:
+            logger.warning("KeyboardInterrupt.")
+            slack.post_text(
+                channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
+            )
+        except Exception as e:
+            logger.warning(str(e))
+            slack.post_text(
+                channel=settings.SLACK_CHANNEL, text=logger.get_log_message()
+            )
+            raise Exception
+        finally:
+            logger.info("Stop recording...")
 
     def _cleanup(self):
         self.stream.stop_stream()
