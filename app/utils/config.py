@@ -32,4 +32,4 @@ class Settings:
 
     LOGGING_LEVEL = os.getenv("LOGGING_LEVEL")
     LOGGING_BACKUP_COUNT = int(os.getenv("LOGGING_BACKUP_COUNT"))
-    LOGFILE_SIZE_GB = int(os.getenv("LOGFILE_SIZE_GB"))
+    LOGFILE_SIZE_GB = float(os.getenv("LOGFILE_SIZE_GB"))
